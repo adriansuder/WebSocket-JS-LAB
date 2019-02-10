@@ -57,7 +57,7 @@ function poruszMarkerem(ev) {
 }
 function startWebSocket() {
     //let url = 'ws://91.121.66.175:8010'
-    let url = 'wss://adriansuder.github.io:443/WebSocket-JS-LAB/'
+    let url = 'ws://demos.kaazing.com/echo '
     console.log(document.location.host + "  " + document.location.pathname)
     ws = new WebSocket(url)
     ws.addEventListener('open', onWSOpen)
