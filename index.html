@@ -1,14 +1,33 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="style.css">
-    <title>WebSocket</title>
+    <title>Document</title>
 </head>
 <body>
-
-    <script src="script.js"></script>
+    <div id="map"></div>
+    <div class="chatWrapper">
+        <div class="chatGrid">
+            <form class="login">
+                <input type="text" placeholder="Your nick" class="name" required>
+                <hr>
+            </form>
+            <div class="chatBox">
+                <ul class="messages">
+                    <li class="wiadomosc">User: Adrian || Message: sdaskdmaskdaskndakjsndkajsndkjasndkas</li><hr class="chatHR">
+                </ul>
+            </div>
+            <form class="textMessage">
+                <input type="text" placeholder="Your message"class="text">
+                <button class="submit" type="submit">Send!</button>
+                
+            </form>
+        </div>
+    </div>
+<script src="script.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARkS-dsh-7IirtcQg3oSZEHudV6Uw9Iic&callback=initMap"async defer></script>    
 </body>
 </html>
