@@ -57,8 +57,7 @@ function poruszMarkerem(ev) {
 }
 function startWebSocket() {
     //let url = 'wss://91.121.66.175:8010'
-    let url = 'wss://www.adriansuder.github.io/WebSocket-JS-LAB/'
-    console.log(document.location.host + "  " + document.location.pathname)
+    let url = 'wss://echo.websocket.org/'
     ws = new WebSocket(url)
     ws.addEventListener('open', onWSOpen)
     ws.addEventListener('message', onWSMessage)
