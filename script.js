@@ -57,7 +57,15 @@ function poruszMarkerem(ev) {
 }
 function startWebSocket() {
     //let url = 'wss://91.121.66.175:8010'
-    let url = 'adriansuder.github.io/WebSocket-JS-LAB/','443'
+    var loc = window.location, new_uri;
+if (loc.protocol === "https:") {
+    new_uri = "wss:";
+} else {
+    new_uri = "ws:";
+}
+new_uri += "//" + loc.host;
+new_uri += loc.pathname + "/to/ws";
+    let url = 'loc
     console.log(document.location.host + "  " + document.location.pathname)
     ws = new WebSocket(url)
     ws.addEventListener('open', onWSOpen)
