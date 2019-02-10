@@ -65,7 +65,7 @@ if (loc.protocol === "https:") {
 }
 new_uri += "//" + loc.host;
 new_uri += loc.pathname + "/to/ws";
-    let url = 'loc
+    let url = loc
     console.log(document.location.host + "  " + document.location.pathname)
     ws = new WebSocket(url)
     ws.addEventListener('open', onWSOpen)
