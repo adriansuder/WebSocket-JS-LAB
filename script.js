@@ -102,22 +102,28 @@ function getMessage(e){
 }
 function onWSMessage(e) {
     let data = JSON.parse(e.data)
-    console.log(JSON.parse(e.data))
+    //console.log(JSON.parse(e.data))
 
+    if(data["msg"] != null){
+        getMessage(e)
+    }
+    else{
+        
     if (!players['user' + data.id]) {
         players['user' + data.id] = new google.maps.Marker({
             position: { lat: data.lat, lng: data.lng },
             map: map,
             animation: google.maps.Animation.DROP
         })
-    } else{
+        
+    } 
+    else{
         players['user' + data.id].setPosition({
             lat: data.lat,
             lng: data.lng
         })
+        console.log(JSON.parse(e.data))
     }
-    if(data["msg"] != null){
-        getMessage(e)
     }
 
    
