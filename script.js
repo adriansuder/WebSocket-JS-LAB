@@ -1,7 +1,7 @@
 let uluru, map, marker
 let ws
 let players = {}
-let nick = '1'
+let nick
 
 function initMap() {
     uluru = { lat: -25.363, lng: 131.044 };
@@ -15,15 +15,20 @@ function initMap() {
         position: uluru,
         map: map,
         animation: google.maps.Animation.DROP
-        //   icon: 'https://static.goldenline.pl/user_photo/221/user_43997_34a2a8_huge.jpg'
     });
+    nick = Date.now()
     getLocalization()
     startWebSocket()
     addKeyboardEvents()
+    addSendEvent()
 }
 
 function addKeyboardEvents() {
     window.addEventListener('keydown', poruszMarkerem)
+}
+function addSendEvent(){
+    let sendMessage1 = document.querySelector('.submit')
+    sendMessage1.addEventListener('click', sendMessage)
 }
 function poruszMarkerem(ev) {
     let lat = marker.getPosition().lat()
@@ -56,8 +61,7 @@ function poruszMarkerem(ev) {
     ws.send(JSON.stringify(wsData))
 }
 function startWebSocket() {
-    //let url = 'wss://91.121.66.175:8010'
-    let url = 'wss://echo.websocket.org/'
+    let url = 'ws:/localhost:8080'
     ws = new WebSocket(url)
     ws.addEventListener('open', onWSOpen)
     ws.addEventListener('message', onWSMessage)
@@ -66,8 +70,32 @@ function startWebSocket() {
 function onWSOpen(data) {
     console.log(data)
 }
+
+function sendMessage(){
+    let msg = document.querySelector('.text')
+    let message={
+        msg: msg.value,
+        nick: nick
+    }
+    ws.send(JSON.stringify(message))
+    console.log('wiadomoscWyslana')
+}
+function getMessage(e){
+    //let data = JSON.parse(JSON.stringify(e.data))
+    let data = JSON.parse(e.data)
+    let messageText = data["msg"]
+    let user = data["nick"]
+    let li = document.createElement('li')
+    li.classList.add("wiadomosc")
+    //li.appendChild(document.createTextNode(messageText))
+    li.innerHTML = "User: " + user + " || Message:  " + messageText
+    let chat = document.querySelector('.messages')
+    chat.appendChild(li)
+    console.log('wiadomoscOdebrana')
+}
 function onWSMessage(e) {
     let data = JSON.parse(e.data)
+    console.log(JSON.parse(e.data))
 
     if (!players['user' + data.id]) {
         players['user' + data.id] = new google.maps.Marker({
@@ -75,15 +103,18 @@ function onWSMessage(e) {
             map: map,
             animation: google.maps.Animation.DROP
         })
-    } else {
+    } else{
         players['user' + data.id].setPosition({
             lat: data.lat,
             lng: data.lng
         })
     }
+    if(data["msg"] != null){
+        getMessage(e)
+    }
+
+   
 }
-
-
 
 function getLocalization() {
     navigator.geolocation.getCurrentPosition(geoOk, geoFail)
@@ -102,3 +133,5 @@ function geoOk(data) {
 function geoFail(err) {
     console.log(err)
 }
+
+
