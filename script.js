@@ -73,21 +73,28 @@ function onWSOpen(data) {
 
 function sendMessage(){
     let msg = document.querySelector('.text')
+    let nickMsg = document.querySelector('.name').value
+    let userNick
+    if(nickMsg != null && nickMsg != ""){
+        userNick = nickMsg
+    }
+    else{
+        userNick = nick
+    }
     let message={
         msg: msg.value,
-        nick: nick
+        nick: userNick
     }
     ws.send(JSON.stringify(message))
     console.log('wiadomoscWyslana')
+    msg.value = ""
 }
 function getMessage(e){
-    //let data = JSON.parse(JSON.stringify(e.data))
     let data = JSON.parse(e.data)
     let messageText = data["msg"]
     let user = data["nick"]
     let li = document.createElement('li')
     li.classList.add("wiadomosc")
-    //li.appendChild(document.createTextNode(messageText))
     li.innerHTML = "User: " + user + " || Message:  " + messageText
     let chat = document.querySelector('.messages')
     chat.appendChild(li)
