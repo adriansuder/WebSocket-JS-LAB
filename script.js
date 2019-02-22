@@ -2,7 +2,7 @@ let uluru, map, marker
 let ws
 let players = {}
 let nick
-
+//tworzenie mapy zgodnie z dokumentacją google maps
 function initMap() {
     uluru = { lat: -25.363, lng: 131.044 };
     map = new google.maps.Map(document.getElementById('map'), {
@@ -30,6 +30,7 @@ function addSendEvent(){
     let sendMessage1 = document.querySelector('.submit')
     sendMessage1.addEventListener('click', sendMessage)
 }
+//funcja poruszająca markerem poprzez strzałki klawiatury
 function poruszMarkerem(ev) {
     let lat = marker.getPosition().lat()
     let lng = marker.getPosition().lng()
@@ -60,6 +61,7 @@ function poruszMarkerem(ev) {
     marker.setPosition(position)
     ws.send(JSON.stringify(wsData))
 }
+//tworzenie połączenia z websocketem
 function startWebSocket() {
     let url = 'ws:/localhost:8080'
     ws = new WebSocket(url)
@@ -70,7 +72,7 @@ function startWebSocket() {
 function onWSOpen(data) {
     console.log(data)
 }
-
+//wysyłanie wiadomości z czatu do websocketa jako JSON
 function sendMessage(){
     let msg = document.querySelector('.text')
     let nickMsg = document.querySelector('.name').value
@@ -87,8 +89,9 @@ function sendMessage(){
     }
     ws.send(JSON.stringify(message))
     console.log('wiadomoscWyslana')
-    msg.value = ""
+
 }
+//pobieranie wiadomosci i parsowanie z JSONA na string oraz tworzenie "li" w czacie
 function getMessage(e){
     let data = JSON.parse(e.data)
     let messageText = data["msg"]
